@@ -1,0 +1,49 @@
+# HTTP Server (Tomcat) Port
+server:
+    port: 3001
+    tomcat:
+        max-connections: 20000
+        max-threads: 2000
+        accesslog:
+            buffered: false
+            directory: /service-logs/ambulance-service/access_logs
+            enabled: true
+            file-date-format: .yyyy-MM-dd
+            pattern: "%a %A %t %r %s %D %b %{X-Forwarded-For}i"
+            prefix: access_log
+            rename-on-rotate: true
+            rotate: true
+            suffix: .log
+        basedir: /service-logs/ambulance-service/access_logs
+
+# Service registers under this name
+spring:
+    profiles: dev
+    datasource:
+        url: "jdbc:mysql://172.31.7.79:3306/ambulance"
+        username: root
+        password: healthcloud#1
+    jackson:
+        mapper:
+            accept-case-insensitive-properties: true
+    jpa:
+        hibernate:
+            show-sql: true
+            ddl-auto: update
+            dialect: org.hibernate.dialect.MySQL5Dialect
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        show-sql: false
+
+response:
+    encrypt: 1
+
+
+#Actuator
+management:
+    server:
+        address: 0.0.0.0
+    endpoints:
+        web:
+            exposure:
+                include: "*"
