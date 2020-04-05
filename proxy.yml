@@ -1,0 +1,362 @@
+# HTTP Server (Tomcat) Port
+server:
+    port: 7008
+    tomcat:
+        max-connections: 20000
+        max-threads: 2000
+        accesslog:
+            buffered: false
+            directory: /framework-logs/proxy/access_logs
+            enabled: true
+            file-date-format: .yyyy-MM-dd
+            pattern: "%a %A %t %r %s %D %b %{X-Forwarded-For}i"
+            prefix: access_log
+            rename-on-rotate: true
+            rotate: true
+            suffix: .log
+        basedir: /framework-logs/proxy/access_logs
+
+spring:
+    profiles: dev
+
+
+#Actuator
+management:
+    server:
+        address: 0.0.0.0
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000
+
+ribbon:
+  ReadTimeout: 40000
+  ConnectTimeout: 40000
+
+zuul:
+    eureka:
+        ambulance:
+            semaphore:
+                maxSemaphores: 30000
+    ResponseFilter:
+        post:
+            disable: false            
+    WhiteListingFilter:
+        pre:
+            disable: true
+    HttpMethodFilter:
+        pre:
+            disable: true
+    ServiceInfoFilter:
+        pre:
+            disable: true
+    #EncryptFilter:
+     #   pre:
+      #      disable: false
+    ignoredServices: "*"
+    host:
+        connect-timeout-millis: 40000
+        socket-timeout-millis: 40000
+    prefix:
+    routes:
+        ambulance:
+            path: /ambulance/**
+            serviceId: ambulance
+        store:
+            path: /store/**
+            serviceId: store
+        admission:
+            path: /admission/**
+            serviceId: admission
+        admissionrequest:
+            path: /admissionrequest/**
+            serviceId: admissionrequest
+        scheduler:
+            path: /scheduler/**
+            serviceId: scheduler
+        clinicalRecord:
+            path: /clinicalRecord/**
+            serviceId: clinicalRecord
+        emrnote:
+            path: /emrnote/**
+            serviceId: emrnote    
+        master:
+            path: /master/**
+            serviceId: master  
+        manufacturer:
+            path: /manufacturer/**
+            serviceId: manufacturer
+        supplier:
+            path: /supplier/**
+            serviceId: supplier
+        itemstock:
+            path: /itemstock/**
+            serviceId: itemstock     
+        itemmaster:
+            path: /itemmaster/**
+            serviceId: itemmaster
+        directReceive:
+            path: /directReceive/**
+            serviceId: directReceive 
+        drugLicense:
+            path: /drugLicense/**
+            serviceId: drugLicense
+        hsnMaster:
+            path: /hsnMaster/**
+            serviceId: hsnMaster
+        order:
+            path: /order/**
+            serviceId: order
+        billing:
+            path: /billing/**
+            serviceId: billing
+        tariff:
+            path: /tariff/**
+            serviceId: tariff
+        globalService:
+            path: /globalService/**
+            serviceId: globalService   
+        transfer:
+            path: /transfer/**
+            serviceId: transfer 
+        samplecollection:
+            path: /samplecollection/**
+            serviceId: samplecollection
+        itemmanagement:
+            path: /itemmanagement/**
+            serviceId: itemmanagement 
+        billingMaster:
+            path: /billingMaster/**
+            serviceId: billingMaster
+        payor:
+            path: /payor/**
+            serviceId: payor
+        globalservices:
+            path: /globalservices/**
+            serviceId: globalservices
+        transferrequest:
+            path: /transferrequest/**
+            serviceId: transferrequest
+        serviceManagement:
+            path: /serviceManagement/**
+            serviceId: serviceManagement    
+
+proxyparameters:
+    allowed: 
+        - store
+        - clinicalRecord
+        - order
+    dnsList: 
+        - apiweb.karexpert.com
+        - apiphone.karexpert.com
+        - apiparty.karexpert.com
+    apiWeb:
+        #dns: apiweb.karexpert.com
+        - 192.168.10.88
+        - 192.168.10.64
+        - 192.168.10.62
+        - 192.168.10.109
+        - 192.168.10.95
+        - 192.168.10.52
+        - 192.168.10.87
+        - 192.168.10.95
+        - 192.168.10.64
+        - 192.168.10.80
+        - 192.168.10.79
+        - 192.168.10.124
+        - 192.168.10.103
+        - 192.168.10.159
+        - 192.168.10.102
+        - 192.168.10.51
+        - 192.168.10.61
+        - 192.168.10.69
+        - 192.168.10.83
+        - 192.168.10.90
+        - 192.168.10.98
+        - 192.168.1.7
+        - 192.168.10.21
+        - 192.168.1.109
+        - 192.168.43.73
+        
+    apiPhone:
+        #dns: apiphone.karexpert.com
+        - 192.189.1.100
+        - 192.189.1.101
+        - 192.168.10.51
+        - 192.168.10.80
+    apiParty:
+        - 200.200.200.200
+        - 200.200.200.201
+    apiKeys:
+        ambulance:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        admission:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        admissionrequest:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        store:
+            1234AK876: 2054cb80bf5247d24d1df62181eaca14
+            1236AK568: 114cb80bf5247d24d1df62181eaca14
+        scheduler:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        clinicalRecord:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        emrnote:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        master:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        manufacturer:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        supplier:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        itemstock:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        itemmaster:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155  
+        directReceive:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        drugLicense:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        hsnMaster:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        order:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155 
+        billing:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        tariff:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        globalService:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155 
+        transfer:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        samplecollection:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        itemmanagement:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        billingMaster:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        payor:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        globalservices:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        transferrequest:
+            M123456AK10002302: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155
+        serviceManagement:
+            M123456AKM54321: f7863pgfm71l2zbqa08q2ifj189lqn1c
+            1236AK568: 2149cc101d9307599ae6f053d7ac2155    
+            
+    encryptFlag:
+        ambulance:
+            M123456AKM54321: false
+            1236AK568: true
+        admission:
+            M123456AKM54321: false
+            1236AK568: true
+        admissionrequest:
+            M123456AKM54321: false
+            1236AK568: true
+        store:
+            1234AK876: true
+            1236AK568: true
+        scheduler:
+            M123456AKM54321: false
+            1236AK568: true
+        clinicalRecord:
+            M123456AKM54321: false
+            1236AK568: true
+        emrnote:
+            M123456AKM54321: false
+            1236AK568: true    
+        master:
+            M123456AKM54321: false
+            1236AK568: true
+        manufacturer:
+            M123456AKM54321: false
+            1236AK568: true
+        supplier:
+            M123456AKM54321: false
+            1236AK568: true
+        itemstock:
+            M123456AKM54321: false
+            1236AK568: true
+        itemmaster:
+            M123456AKM54321: false
+            1236AK568: true
+        directReceive:
+            M123456AKM54321: false
+            1236AK568: true
+        drugLicense:
+            M123456AKM54321: false
+            1236AK568: true
+        hsnMaster:
+            M123456AKM54321: false
+            1236AK568: true
+        order:
+            M123456AKM54321: false
+            1236AK568: true    
+        billing:
+            M123456AKM54321: false
+            1236AK568: true
+        tariff:
+            M123456AKM54321: false
+            1236AK568: true
+        globalService:
+            M123456AKM54321: false
+            1236AK568: true
+        transfer:
+            M123456AKM54321: false
+            1236AK568: true
+        samplecollection:
+            M123456AKM54321: false
+            1236AK568: true
+        itemmanagement:
+            M123456AKM54321: false
+            1236AK568: true    
+        billingMaster:
+            M123456AKM54321: false
+            1236AK568: true
+        payor:
+            M123456AKM54321: false
+            1236AK568: true       
+        globalservices:
+            M123456AKM54321: false
+            1236AK568: true
+        transferrequest:
+            M123456AK10002302: false
+            1236AK568: true
+        serviceManagement:
+            M123456AKM54321: false
+            1236AK568: true 
